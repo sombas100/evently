@@ -9,6 +9,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+string GetConnectionString = Environment.GetEnvironmentVariable("DATABASE_CONNECTION_STRING");
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+    Console.WriteLine("Database connection configured successfully.");
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
