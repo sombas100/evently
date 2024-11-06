@@ -11,9 +11,10 @@ namespace server.Services
     {
         private readonly string _secretKey;
 
-        public JwtService(IConfiguration configuration)
+        public JwtService(string secretKey)
         {
-            _secretKey = configuration["jwt:SecretKey"];
+            _secretKey = secretKey ?? throw new ArgumentNullException(nameof(secretKey), "JWT secret key cannot be null.");
+            Console.WriteLine("JWT Secret Key in JwtService: " + _secretKey);
         }
 
         public string GenerateToken(int userId, bool isAdmin)
