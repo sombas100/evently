@@ -26,7 +26,7 @@ namespace server.Controllers
             {
                 UserId = userId,
                 EventId = eventId,
-                RegistrationDate = DateTime.Now
+                RegistrationDate = DateTime.UtcNow
             };
 
             _context.Registrations.Add(registration);
