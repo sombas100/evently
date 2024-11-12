@@ -28,7 +28,7 @@ namespace server.Controllers
                 return BadRequest("User already exists");
             }
 
-            user.PasswordHash = _passwordService.HashPassword(user.PasswordHash);
+            user.Password = _passwordService.HashPassword(user.Password);
             _context.Users.Add(user);
             _context.SaveChanges();
 
@@ -39,7 +39,7 @@ namespace server.Controllers
         public IActionResult Login([FromBody] User userDto)
         {
             var user = _context.Users.SingleOrDefault(u => u.Email == userDto.Email);
-            if (user == null || !_passwordService.VerifyPassword(userDto.PasswordHash, user.PasswordHash))
+            if (user == null || !_passwordService.VerifyPassword(userDto.Password, user.Password))
             {
                 return Unauthorized("Invalid credentials");
             }
