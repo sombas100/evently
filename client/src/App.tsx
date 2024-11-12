@@ -1,13 +1,18 @@
-import React from "react";
 import Login from "./components/Login";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
     <>
-      <h1 className="text-3xl text-blue-400 font-bold underline">
-        Hello world!
-      </h1>
-      <Login />
+      <Router>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/dashboard" element />
+          </Route>
+        </Routes>
+      </Router>
     </>
   );
 }
