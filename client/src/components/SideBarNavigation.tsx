@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-import { Typography } from "@mui/material";
 import { FaSignInAlt } from "react-icons/fa";
 import { CgLogOut } from "react-icons/cg";
 import { Link } from "react-router-dom";
@@ -24,7 +22,7 @@ const SideBarNavigation = () => {
 
   return (
     <div className="flex max-w-48 h-screen p-12 flex-grow shadow-lg text-black">
-      <div className="items-center justify-center grow gap-7">
+      <div className="items-center justify-center">
         <div className="py-3">
           <Link
             to="/"

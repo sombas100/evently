@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../app/store";
 import { register } from "../features/auth/authSlice";
@@ -20,7 +20,7 @@ const Register: React.FC = () => {
   const [password, setPassword] = useState<string>("");
   const [userRole, setUserRole] = useState<string>("user");
   const dispatch = useDispatch<AppDispatch>();
-  const { loading, error } = useSelector((state: RootState) => state.auth);
+  const { loading } = useSelector((state: RootState) => state.auth);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
