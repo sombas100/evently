@@ -3,6 +3,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import EventsPage from "./pages/EventsPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import AdminPage from "./pages/AdminPage";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
           <Route path="/" element={<EventsPage />} />
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/register" element={<RegisterPage />}></Route>
+          <Route path="/admin" element={<AdminPage />}></Route>
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element />
           </Route>

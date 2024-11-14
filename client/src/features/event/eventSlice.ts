@@ -46,6 +46,53 @@ export const registerForEvent = createAsyncThunk(
     }
 );
 
+export const createEvent = createAsyncThunk(
+    'event/createEvent',
+    async (eventData: Omit<Event, 'eventId'>, { rejectWithValue, getState }) => {
+        try {
+            const { auth } = getState() as { auth: { token: string } };
+            const res = await client.post('api/event', eventData, {
+                headers: { Authorization: `Bearer ${auth.token}`},
+            });
+            const data = res.data;
+            return data;
+        } catch (err) {
+            return rejectWithValue('Failed to create event');
+        }
+    }
+);
+
+export const updateEvent = createAsyncThunk(
+    'event/updateEvent',
+    async (eventData: Event, { rejectWithValue, getState }) => {
+        try {
+            const { auth } = getState() as { auth: { token: string } };
+            const res = await client.put(`/api/event/${eventData.eventId}`, eventData, {
+                headers: { Authorization: `Bearer ${auth.token}` }
+            });
+            const data = res.data;
+            return data;
+        } catch (err) {
+            return rejectWithValue('Failed to update event');
+        }
+    }
+);
+
+export const deleteEvent = createAsyncThunk(
+    'event/deleteEvent',
+    async (eventId: number, { rejectWithValue, getState }) => {
+        try {
+            const { auth } = getState() as { auth: { token: string } };
+             await client.delete(`/api/event/${eventId}`, {
+                headers: { Authorization: `Bearer ${auth.token}` }
+            });
+            return eventId;
+        } catch (error) {
+            return rejectWithValue('Failed to delete event')
+        }
+    }
+)
+
 const eventSlice = createSlice({
     name: 'event',
     initialState,
@@ -66,6 +113,18 @@ const eventSlice = createSlice({
         })
         .addCase(registerForEvent.rejected, (state, action) => {
             state.error = action.payload as string;
+        })
+        .addCase(createEvent.fulfilled, (state, action) => {
+            state.events.push(action.payload);
+        })
+        .addCase(updateEvent.fulfilled, (state, action) => {
+            const index = state.events.findIndex((e) => e.eventId === action.payload.eventId);
+            if (index !== 1) {
+                state.events[index] = action.payload;
+            }
+        })
+        .addCase(deleteEvent.fulfilled, (state, action) => {
+            state.events = state.events.filter((e) => e.eventId !== action.payload)
         })
     }
 })
