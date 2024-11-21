@@ -29,6 +29,14 @@ namespace server.Controllers
         [Authorize(Policy = "AdminOnly")]
         public IActionResult CreateEvent([FromBody] Event newEvent)
         {
+            if (newEvent.Date.Kind == DateTimeKind.Unspecified)
+            {
+                newEvent.Date = DateTime.SpecifyKind(newEvent.Date, DateTimeKind.Utc);
+            }
+            else
+            {
+                newEvent.Date = newEvent.Date.ToUniversalTime();
+            }
             _context.Events.Add(newEvent);
             _context.SaveChanges();
             return Ok(newEvent);
@@ -39,11 +47,17 @@ namespace server.Controllers
         public IActionResult UpdateEvent(int id, [FromBody] Event updatedEvent)
         {
             var eventInDb = _context.Events.Find(id);
-            if (eventInDb != null) return NotFound();
+            if (eventInDb == null)
+            {
+                Console.WriteLine($"Event with ID {id} not found.");
+                return NotFound();
+            }
 
             eventInDb.Title = updatedEvent.Title;
             eventInDb.Description = updatedEvent.Description;
-            eventInDb.Date = updatedEvent.Date;
+            eventInDb.Date = (updatedEvent.Date.Kind == DateTimeKind.Unspecified)
+            ? DateTime.SpecifyKind(updatedEvent.Date, DateTimeKind.Utc)
+            : updatedEvent.Date.ToUniversalTime();
             eventInDb.Location = updatedEvent.Location;
 
             _context.SaveChanges();
@@ -55,7 +69,7 @@ namespace server.Controllers
         public IActionResult DeleteEvent(int id)
         {
             var eventInDb = _context.Events.Find(id);
-            if (eventInDb != null) return NotFound();
+            if (eventInDb == null) return NotFound();
 
             _context.Events.Remove(eventInDb);
             _context.SaveChanges();

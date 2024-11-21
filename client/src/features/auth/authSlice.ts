@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import client from '../../config/axiosInstance';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
 
+
 interface AuthState {
     token: string | null;
     isAuthenticated: boolean;
@@ -10,8 +11,8 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-    token: null,
-    isAuthenticated: false,
+    token: localStorage.getItem('token'),
+    isAuthenticated: !!localStorage.getItem('token'),
     loading: false,
     error: null,
 }
@@ -61,6 +62,8 @@ const authSlice = createSlice({
         logout: (state) => {
             state.token = null;
             state.isAuthenticated = false;
+            localStorage.removeItem('token');
+            localStorage.removeItem('tokenExpiration');
         },
     },
     extraReducers: (builder)  => {

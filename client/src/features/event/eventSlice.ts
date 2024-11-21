@@ -51,8 +51,8 @@ export const createEvent = createAsyncThunk(
     async (eventData: Omit<Event, 'eventId'>, { rejectWithValue, getState }) => {
         try {
             const { auth } = getState() as { auth: { token: string } };
-            const res = await client.post('api/event', eventData, {
-                headers: { Authorization: `Bearer ${auth.token}`},
+            const res = await client.post('/api/event', eventData, {
+                headers: { Authorization: `Bearer ${auth.token}` },
             });
             const data = res.data;
             return data;
@@ -67,12 +67,18 @@ export const updateEvent = createAsyncThunk(
     async (eventData: Event, { rejectWithValue, getState }) => {
         try {
             const { auth } = getState() as { auth: { token: string } };
+
+            if (!eventData.eventId) {
+                throw new Error('Invalid event ID');
+            }
+            console.log(eventData)
             const res = await client.put(`/api/event/${eventData.eventId}`, eventData, {
                 headers: { Authorization: `Bearer ${auth.token}` }
             });
             const data = res.data;
             return data;
-        } catch (err) {
+        } catch (err: any) {
+            console.error(err.response?.data || err.message);
             return rejectWithValue('Failed to update event');
         }
     }

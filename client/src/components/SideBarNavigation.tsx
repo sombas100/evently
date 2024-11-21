@@ -2,6 +2,8 @@ import { FaSignInAlt } from "react-icons/fa";
 import { CgLogOut } from "react-icons/cg";
 import { Link } from "react-router-dom";
 import { IoHome } from "react-icons/io5";
+import { MdAdminPanelSettings } from "react-icons/md";
+import { useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../app/store";
 import { logout } from "../features/auth/authSlice";
@@ -10,6 +12,11 @@ import { useNavigate } from "react-router-dom";
 const SideBarNavigation = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const styles = {
+    textHover: "text-sky-700",
+  };
 
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated
@@ -24,13 +31,26 @@ const SideBarNavigation = () => {
     <div className="flex max-w-48 h-screen p-12 flex-grow shadow-lg text-black">
       <div className="items-center justify-center">
         <div className="py-3">
-          <Link
-            to="/"
-            className="flex items-center justify-center text-lg hover:text-sky-300 transition-all ease-in"
-          >
-            <IoHome className="mx-2" />
-            Events
-          </Link>
+          <ul>
+            <li>
+              <Link
+                to="/admin"
+                className="flex items-center justify-center mb-3 text-lg hover:text-sky-300 transition-all ease-in"
+              >
+                <MdAdminPanelSettings className="mx-2" />
+                Admin
+              </Link>
+            </li>
+            <li className={location.pathname === "/" ? styles.textHover : ""}>
+              <Link
+                to="/"
+                className="flex items-center justify-center text-lg hover:text-sky-300 transition-all ease-in"
+              >
+                <IoHome className="mx-2" />
+                Events
+              </Link>
+            </li>
+          </ul>
         </div>
         {!isAuthenticated ? (
           <div className="py-2">
