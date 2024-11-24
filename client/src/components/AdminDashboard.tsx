@@ -7,6 +7,8 @@ import {
   deleteEvent,
   fetchEvents,
 } from "../features/event/eventSlice";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   TextField,
   Button,
@@ -19,6 +21,9 @@ import {
   Box,
   CircularProgress,
 } from "@mui/material";
+import { FaLocationDot } from "react-icons/fa6";
+import { SlCalender } from "react-icons/sl";
+import { CgDetailsMore } from "react-icons/cg";
 
 const AdminDashboard: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -72,12 +77,15 @@ const AdminDashboard: React.FC = () => {
   const handleCreate = () => {
     dispatch(createEvent(formData));
     setFormData({ title: "", description: "", date: "", location: "" });
+    toast.success("Event was successfully created");
   };
 
   const handleUpdate = () => {
     if (editingEventId) {
       dispatch(updateEvent({ ...formData, eventId: editingEventId }));
       setFormData({ title: "", description: "", date: "", location: "" });
+      toast.success("The event has been successfully updated");
+      handleClose();
     }
   };
 
@@ -87,6 +95,11 @@ const AdminDashboard: React.FC = () => {
 
   const handleDelete = (eventId: number) => {
     dispatch(deleteEvent(eventId));
+    toast.success("The event was successfully deleted");
+
+    if (!eventId) {
+      return toast.error("There was an issue deleting the event");
+    }
   };
 
   if (loading) return <CircularProgress />;
@@ -145,17 +158,39 @@ const AdminDashboard: React.FC = () => {
       <Typography className="bg-zinc-100 p-2" variant="h5">
         Current Events
       </Typography>
-      <Grid2 container spacing={3} style={{ marginTop: "10px" }}>
+      <Grid2
+        container
+        spacing={3}
+        style={{ position: "relative", marginTop: "10px" }}
+      >
         {events.map((event) => (
           <Grid2 size={{ xs: 12, sm: 6, md: 4 }} key={event.eventId}>
-            <Card>
-              <CardContent>
-                <Typography variant="h5">{event.title}</Typography>
-                <Typography variant="body2">{event.description}</Typography>
-                <Typography variant="body2">
+            <Card
+              sx={{
+                position: "relative",
+                height: "230px",
+                justifyContent: "center",
+              }}
+            >
+              <CardContent
+                sx={{ alignItems: "center", justifyContent: "center" }}
+              >
+                <Typography className="mb-6" variant="h5">
+                  {event.title}
+                </Typography>
+                <Typography className="my-3 flex items-start" variant="body2">
+                  <CgDetailsMore className="mx-2" size={25} />
+                  {event.description}
+                </Typography>
+                <Typography className="flex items-center" variant="body2">
+                  <SlCalender className="mx-2" />
                   {new Date(event.date).toLocaleDateString()}
                 </Typography>
-                <Typography variant="body2">{event.location}</Typography>
+                <Typography className="flex items-center" variant="body2">
+                  <FaLocationDot className="mx-2" /> {event.location}
+                </Typography>
+              </CardContent>
+              <div className="h-auto flex items-end justify-center">
                 <Button
                   onClick={() => handleOpen(event)}
                   variant="outlined"
@@ -172,7 +207,7 @@ const AdminDashboard: React.FC = () => {
                 >
                   Delete
                 </Button>
-              </CardContent>
+              </div>
             </Card>
           </Grid2>
         ))}
@@ -220,13 +255,22 @@ const AdminDashboard: React.FC = () => {
           <Button
             onClick={handleUpdate}
             variant="contained"
-            color="primary"
-            style={{ marginTop: "16px" }}
+            color="secondary"
+            style={{ marginTop: "16px", marginRight: "8px" }}
           >
             Update Event
           </Button>
+          <Button
+            variant="contained"
+            color="error"
+            style={{ marginTop: "16px" }}
+            onClick={() => handleClose()}
+          >
+            Cancel
+          </Button>
         </Box>
       </Modal>
+      <ToastContainer />
     </div>
   );
 };

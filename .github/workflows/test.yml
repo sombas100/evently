@@ -1,19 +1,36 @@
 name: CI
+
 on: [push, pull_request]
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup Node.JS (Frontend)
-      - uses: actions/setup-node@v3
-    with:
-        node-version: '16'
-      - run: npm ci
-      - run: npm test
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js (Frontend)
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+
+      - name: Install Frontend Dependencies
+        run: npm ci
+        working-directory: ./client
+
+      - name: Run Frontend Tests
+        run: npm test
+        working-directory: ./client
+
       - name: Setup .NET (Backend)
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: '6.0'
-      - run: dotnet restore
-      - run: dotnet test
+          dotnet-version: "8.0"
+
+      - name: Restore Backend Dependencies
+        run: dotnet restore
+        working-directory: ./server
+
+      - name: Run Backend Tests
+        run: dotnet test
+        working-directory: ./server

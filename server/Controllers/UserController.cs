@@ -20,6 +20,13 @@ namespace server.Controllers
             _jwtService = jwtService;
         }
 
+        [HttpGet]
+        public IActionResult GetUsers()
+        {
+            var users = _context.Users.ToList();
+            return Ok(users);
+        }
+
         [HttpPost("register")]
         public IActionResult Register([FromBody] User user)
         {

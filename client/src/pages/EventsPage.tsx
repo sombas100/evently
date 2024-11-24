@@ -41,10 +41,14 @@ const EventsPage: React.FC = () => {
             <Card>
               <CardContent>
                 <Typography variant="h5">{event.title}</Typography>
-                <Typography className="flex items-center mx-5" variant="body2">
+                <Typography className="flex items-start mx-5" variant="body2">
                   <CgDetailsMore className="mx-2 my-2" /> {event.description}
                 </Typography>
-                <Typography className="flex items-center mx-5" variant="body2">
+                <Typography
+                  className="flex items-start
+                 mx-5"
+                  variant="body2"
+                >
                   <SlCalender className="mx-2 my-1" />{" "}
                   {new Date(event.date).toLocaleDateString()}
                 </Typography>

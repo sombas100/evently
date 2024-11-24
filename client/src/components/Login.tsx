@@ -12,20 +12,26 @@ const Login: React.FC = () => {
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const dispatch = useDispatch<AppDispatch>();
-  const { loading } = useSelector((state: RootState) => state.auth);
+  const { loading, error } = useSelector((state: RootState) => state.auth);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const resultAction = await dispatch(login({ username, email, password }));
+    try {
+      const resultAction = await dispatch(login({ username, email, password }));
 
-    if (login.fulfilled.match(resultAction)) {
-      toast.success("Login successful");
-      navigate("/");
-    } else {
-      toast.error("Login failed!");
+      if (login.fulfilled.match(resultAction)) {
+        toast.success("Login successful");
+        navigate("/");
+      } else {
+        toast.error("Login failed!");
+      }
+    } catch (error: any) {
+      console.error(error.message);
+      setErrorMessage("Invalid Credentials");
     }
   };
 
@@ -44,6 +50,7 @@ const Login: React.FC = () => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             fullWidth
+            required
           />
           <TextField
             margin="dense"
@@ -51,6 +58,7 @@ const Login: React.FC = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             fullWidth
+            required
           />
           <TextField
             margin="normal"
@@ -59,6 +67,7 @@ const Login: React.FC = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             fullWidth
+            required
           />
           <p className="my-3 text-sm">
             Don't have a evently account?{" "}
@@ -68,6 +77,7 @@ const Login: React.FC = () => {
               </span>
             </Link>
           </p>
+          {error && <p style={{ color: "red" }}>{errorMessage}</p>}
           <Button
             type="submit"
             variant="contained"
