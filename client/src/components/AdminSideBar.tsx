@@ -27,54 +27,121 @@ const SideBarNavigation = () => {
   };
 
   return (
-    <div className="absolute max-w-48 h-screen p-12 flex-grow shadow-lg text-black">
-      <div className="items-center justify-center">
-        <div className="py-3">
-          <ul>
+    <div
+      style={{
+        position: "absolute",
+        width: "250px",
+        height: "100%",
+        padding: "20px",
+        backgroundColor: "#1a1a2e",
+        color: "#ffffff",
+        boxShadow: "2px 0 5px rgba(0, 0, 0, 0.1)",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          height: "100%",
+        }}
+      >
+        <div>
+          <ul style={{ listStyleType: "none", padding: "0", margin: "0" }}>
             <li
-              className={location.pathname === "/admin" ? styles.textHover : ""}
+              style={{
+                marginBottom: "20px",
+                backgroundColor:
+                  location.pathname === "/admin" ? "#30475e" : "transparent",
+                borderRadius: "8px",
+              }}
             >
               <Link
                 to="/admin"
-                className="flex items-center justify-center mb-3 text-lg hover:text-sky-300 transition-all ease-in"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  fontSize: "18px",
+                  textDecoration: "none",
+                  color: "#ffffff",
+                  padding: "10px 15px",
+                  transition: "background-color 0.3s",
+                }}
+                className="hover:bg-blue-600"
               >
-                <MdAdminPanelSettings className="mx-2" />
+                <MdAdminPanelSettings
+                  style={{ marginRight: "10px", fontSize: "20px" }}
+                />
                 Admin
               </Link>
             </li>
-            <li className={location.pathname === "/" ? styles.textHover : ""}>
+            <li
+              style={{
+                marginBottom: "20px",
+                backgroundColor:
+                  location.pathname === "/" ? "#30475e" : "transparent",
+                borderRadius: "8px",
+              }}
+            >
               <Link
                 to="/"
-                className="flex items-center justify-center text-lg hover:text-sky-300 transition-all ease-in"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  fontSize: "18px",
+                  textDecoration: "none",
+                  color: "#ffffff",
+                  padding: "10px 15px",
+                  transition: "background-color 0.3s",
+                }}
+                className="hover:bg-blue-600"
               >
-                <IoHome className="mx-2" />
+                <IoHome style={{ marginRight: "10px", fontSize: "20px" }} />
                 Events
               </Link>
             </li>
           </ul>
         </div>
-        {!isAuthenticated ? (
-          <div className="py-2">
+        <div>
+          {!isAuthenticated ? (
             <Link
               to="/login"
-              className="flex items-center justify-center text-lg hover:text-sky-300 transition-all ease-in"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                fontSize: "18px",
+                textDecoration: "none",
+                color: "#ffffff",
+                padding: "10px 15px",
+                borderRadius: "8px",
+                transition: "background-color 0.3s",
+              }}
+              className="hover:bg-blue-600"
             >
-              <FaSignInAlt className="mx-2" />
+              <FaSignInAlt style={{ marginRight: "10px", fontSize: "20px" }} />
               Login
             </Link>
-          </div>
-        ) : (
-          <div className="my-2">
+          ) : (
             <Link
               to="/login"
-              onClick={() => handleLogout}
-              className="flex items-center justify-center text-lg hover:text-sky-300 transition-all ease-in"
+              onClick={() => handleLogout()}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                fontSize: "18px",
+                textDecoration: "none",
+                color: "#ffffff",
+                padding: "10px 15px",
+                borderRadius: "8px",
+                transition: "background-color 0.3s",
+              }}
+              className="hover:bg-red-600"
             >
-              <CgLogOut className="mx-1" />
+              <CgLogOut style={{ marginRight: "10px", fontSize: "20px" }} />
               Logout
             </Link>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

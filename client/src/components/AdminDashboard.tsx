@@ -106,14 +106,20 @@ const AdminDashboard: React.FC = () => {
   if (error) return <div>{error}</div>;
   return (
     <div className="max-w-5xl w-screen mx-auto mt-10">
-      <Typography variant="h4">Admin Dashboard</Typography>
+      <Typography variant="h4" className="mb-6">
+        Admin Dashboard
+      </Typography>
 
       <form
         onSubmit={(e) => {
           e.preventDefault();
           handleCreate();
         }}
+        className="bg-gray-100 p-6 rounded shadow-md"
       >
+        <Typography variant="h6" className="mb-4">
+          Create New Event
+        </Typography>
         <TextField
           label="Title"
           name="title"
@@ -148,54 +154,50 @@ const AdminDashboard: React.FC = () => {
           fullWidth
           margin="normal"
         />
-        <Button type="submit" variant="contained" color="primary">
+        <Button type="submit" variant="contained" color="primary" fullWidth>
           Create Event
         </Button>
       </form>
 
-      <Divider style={{ margin: "70px 0" }} />
+      <Divider className="my-10" />
 
-      <Typography className="bg-zinc-100 p-2" variant="h5">
+      <Typography variant="h5" className="bg-zinc-100 p-3 rounded shadow-md">
         Current Events
       </Typography>
-      <Grid2
-        container
-        spacing={3}
-        style={{ position: "relative", marginTop: "10px" }}
-      >
+      <Grid2 container spacing={3} className="mt-5">
         {events.map((event) => (
           <Grid2 size={{ xs: 12, sm: 6, md: 4 }} key={event.eventId}>
             <Card
               sx={{
-                position: "relative",
-                height: "230px",
-                justifyContent: "center",
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
               }}
             >
-              <CardContent
-                sx={{ alignItems: "center", justifyContent: "center" }}
-              >
-                <Typography className="mb-6" variant="h5">
+              <CardContent>
+                <Typography variant="h6" className="mb-4">
                   {event.title}
                 </Typography>
-                <Typography className="my-3 flex items-start" variant="body2">
-                  <CgDetailsMore className="mx-2" size={25} />
+                <Typography variant="body2" className="flex items-start mb-2">
+                  <CgDetailsMore className="mr-2 text-lg" />
                   {event.description}
                 </Typography>
-                <Typography className="flex items-center" variant="body2">
-                  <SlCalender className="mx-2" />
+                <Typography variant="body2" className="flex items-center mb-2">
+                  <SlCalender className="mr-2 text-lg" />
                   {new Date(event.date).toLocaleDateString()}
                 </Typography>
-                <Typography className="flex items-center" variant="body2">
-                  <FaLocationDot className="mx-2" /> {event.location}
+                <Typography variant="body2" className="flex items-center">
+                  <FaLocationDot className="mr-2 text-lg" />
+                  {event.location}
                 </Typography>
               </CardContent>
-              <div className="h-auto flex items-end justify-center">
+              <div className="p-3 flex justify-center space-x-3">
                 <Button
                   onClick={() => handleOpen(event)}
                   variant="outlined"
                   color="secondary"
-                  style={{ marginTop: "10px" }}
                 >
                   Edit
                 </Button>
@@ -203,7 +205,6 @@ const AdminDashboard: React.FC = () => {
                   onClick={() => handleDelete(event.eventId)}
                   variant="contained"
                   color="error"
-                  style={{ marginTop: "10px", marginLeft: "5px" }}
                 >
                   Delete
                 </Button>
@@ -214,8 +215,8 @@ const AdminDashboard: React.FC = () => {
       </Grid2>
 
       <Modal open={isOpen} onClose={handleClose}>
-        <Box sx={modalStyle}>
-          <Typography variant="h6" component="h2">
+        <Box sx={modalStyle} className="p-6 bg-white rounded shadow-lg">
+          <Typography variant="h6" className="mb-4">
             Update Event
           </Typography>
           <TextField
@@ -252,24 +253,17 @@ const AdminDashboard: React.FC = () => {
             fullWidth
             margin="normal"
           />
-          <Button
-            onClick={handleUpdate}
-            variant="contained"
-            color="secondary"
-            style={{ marginTop: "16px", marginRight: "8px" }}
-          >
-            Update Event
-          </Button>
-          <Button
-            variant="contained"
-            color="error"
-            style={{ marginTop: "16px" }}
-            onClick={() => handleClose()}
-          >
-            Cancel
-          </Button>
+          <div className="mt-4 flex justify-end space-x-3">
+            <Button onClick={handleUpdate} variant="contained" color="primary">
+              Update
+            </Button>
+            <Button variant="contained" color="error" onClick={handleClose}>
+              Cancel
+            </Button>
+          </div>
         </Box>
       </Modal>
+
       <ToastContainer />
     </div>
   );

@@ -39,7 +39,10 @@ export const registerForEvent = createAsyncThunk(
     async (eventId: number, { rejectWithValue, getState }) => {
         try {
             const { auth } = getState() as { auth: { token: string } };
-            await client.post('/api/registration', { eventId }, { headers: { Authorization: `Bearer ${auth.token}` } });
+            await client.post('/api/registration', eventId , { headers: { Authorization: `Bearer ${auth.token}`,
+                'Content-Type': 'application/json'
+             }, 
+            });
         } catch (err) {
             return rejectWithValue('Registration failed');
         }
@@ -117,7 +120,15 @@ const eventSlice = createSlice({
             state.loading = false;
             state.error = action.payload as string;
         })
+        .addCase(registerForEvent.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        })
+        .addCase(registerForEvent.fulfilled, (state, action) => {
+            state.loading = false;
+        })
         .addCase(registerForEvent.rejected, (state, action) => {
+            state.loading = false;
             state.error = action.payload as string;
         })
         .addCase(createEvent.fulfilled, (state, action) => {

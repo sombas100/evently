@@ -30,36 +30,103 @@ const EventsPage: React.FC = () => {
   if (error) return <p>{error}</p>;
 
   return (
-    <div style={{ display: "flex" }}>
+    <div
+      style={{
+        display: "flex",
+        minHeight: "100vh",
+        backgroundColor: "#f5f5f5",
+      }}
+    >
       <div style={{ width: "250px", marginRight: "16px" }}>
         <SideBarNavigation />
       </div>
 
-      <Grid container spacing={4} padding={4}>
+      <Grid container spacing={4} padding={4} style={{ flexGrow: 1 }}>
         {events.map((event) => (
           <Grid item xs={12} sm={6} md={4} key={event.eventId}>
-            <Card>
+            <Card
+              style={{
+                borderRadius: "12px",
+                overflow: "hidden",
+                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                transition: "transform 0.3s, box-shadow 0.3s",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "scale(1.03)";
+                e.currentTarget.style.boxShadow =
+                  "0 6px 16px rgba(0, 0, 0, 0.15)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "scale(1)";
+                e.currentTarget.style.boxShadow =
+                  "0 4px 8px rgba(0, 0, 0, 0.1)";
+              }}
+            >
               <CardContent>
-                <Typography variant="h5">{event.title}</Typography>
-                <Typography className="flex items-start mx-5" variant="body2">
-                  <CgDetailsMore className="mx-2 my-2" /> {event.description}
+                <Typography
+                  variant="h5"
+                  style={{
+                    fontWeight: "bold",
+                    color: "#333",
+                    marginBottom: "8px",
+                  }}
+                >
+                  {event.title}
                 </Typography>
                 <Typography
-                  className="flex items-start
-                 mx-5"
                   variant="body2"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    color: "#555",
+                  }}
                 >
-                  <SlCalender className="mx-2 my-1" />{" "}
+                  <CgDetailsMore
+                    style={{ marginRight: "8px", color: "#0077b6" }}
+                  />
+                  {event.description}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginTop: "8px",
+                    color: "#555",
+                  }}
+                >
+                  <SlCalender
+                    style={{ marginRight: "8px", color: "#2a9d8f" }}
+                  />
                   {new Date(event.date).toLocaleDateString()}
                 </Typography>
-                <Typography className="flex items-center" variant="body2">
-                  <FaLocationDot className="mx-2 my-1" /> {event.location}
+                <Typography
+                  variant="body2"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginTop: "8px",
+                    color: "#555",
+                  }}
+                >
+                  <FaLocationDot
+                    style={{ marginRight: "8px", color: "#e76f51" }}
+                  />
+                  {event.location}
                 </Typography>
-                <Link to={`/${event.eventId}`}>
+                <Link
+                  to={`/${event.eventId}`}
+                  style={{ textDecoration: "none" }}
+                >
                   <Button
-                    style={{ marginTop: "16px" }}
                     variant="contained"
                     color="primary"
+                    style={{
+                      marginTop: "16px",
+                      borderRadius: "20px",
+                      fontWeight: "bold",
+                      padding: "8px 16px",
+                    }}
                   >
                     View Details
                   </Button>

@@ -27,7 +27,7 @@ const Register: React.FC = () => {
     e.preventDefault();
 
     const resultAction = await dispatch(
-      register({ username, email, password, isAdmin: userRole === "admin" })
+      register({ username, email, password, isAdmin: userRole === "user" })
     );
 
     if (register.fulfilled.match(resultAction)) {
