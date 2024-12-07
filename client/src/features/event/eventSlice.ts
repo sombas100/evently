@@ -59,7 +59,10 @@ export const createEvent = createAsyncThunk(
             });
             const data = res.data;
             return data;
-        } catch (err) {
+        } catch (err: any) {
+            if (err.res && err.res.status === 403) {
+                return rejectWithValue('You are not authorized to create events');
+            }
             return rejectWithValue('Failed to create event');
         }
     }

@@ -74,18 +74,26 @@ const AdminDashboard: React.FC = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleCreate = () => {
-    dispatch(createEvent(formData));
-    setFormData({ title: "", description: "", date: "", location: "" });
-    toast.success("Event was successfully created");
+  const handleCreate = async () => {
+    try {
+      await dispatch(createEvent(formData)).unwrap();
+      setFormData({ title: "", description: "", date: "", location: "" });
+      toast.success("Event was successfully created");
+    } catch (error: any) {
+      toast.error(error || "An error occured while creating the event");
+    }
   };
 
   const handleUpdate = () => {
     if (editingEventId) {
-      dispatch(updateEvent({ ...formData, eventId: editingEventId }));
-      setFormData({ title: "", description: "", date: "", location: "" });
-      toast.success("The event has been successfully updated");
-      handleClose();
+      try {
+        dispatch(updateEvent({ ...formData, eventId: editingEventId }));
+        setFormData({ title: "", description: "", date: "", location: "" });
+        toast.success("The event has been successfully updated");
+        handleClose();
+      } catch (error: any) {
+        toast.error(error || "An error occured while updating the event");
+      }
     }
   };
 
@@ -105,7 +113,7 @@ const AdminDashboard: React.FC = () => {
   if (loading) return <CircularProgress />;
   if (error) return <div>{error}</div>;
   return (
-    <div className="max-w-5xl w-screen mx-auto mt-10">
+    <div className="max-w-5xl h-auto w-screen mx-auto pt-8">
       <Typography variant="h4" className="mb-6">
         Admin Dashboard
       </Typography>

@@ -29,6 +29,13 @@ namespace server.Controllers
         [Authorize(Policy = "AdminOnly")]
         public IActionResult CreateEvent([FromBody] Event newEvent)
         {
+            var userIsAdmin = User.Claims.FirstOrDefault(c => c.Type == "IsAdmin")?.Value;
+
+            if (userIsAdmin == "false")
+            {
+                return Forbid("You are not authorized to create events.");
+            }
+
             if (newEvent.Date.Kind == DateTimeKind.Unspecified)
             {
                 newEvent.Date = DateTime.SpecifyKind(newEvent.Date, DateTimeKind.Utc);
