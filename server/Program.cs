@@ -6,9 +6,16 @@ using server.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using DotNetEnv;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
 
 var builder = WebApplication.CreateBuilder(args);
 DotNetEnv.Env.Load();
+
+FirebaseApp.Create(new AppOptions
+{
+    Credential = GoogleCredential.FromFile("firebase/serviceAccountKey.json")
+});
 
 // Set up environment variable for JWT Secret
 var JwtSecret = Environment.GetEnvironmentVariable("JWT_SECRET");
@@ -49,6 +56,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<PasswordService>();
 builder.Services.AddSingleton(new JwtService(JwtSecret));
+builder.Services.AddScoped<FirebaseService>();
 
 // Database configuration
 var connectionString = Environment.GetEnvironmentVariable("DATABASE_CONNECTION_STRING");
