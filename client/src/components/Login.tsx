@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import GoogleLogin from "./GoogleLogin";
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState<string>("");
@@ -87,6 +88,7 @@ const Login: React.FC = () => {
           >
             {loading ? <CircularProgress size={24} /> : "Login"}
           </Button>
+          <GoogleLogin />
           <ToastContainer />
         </form>
       </div>

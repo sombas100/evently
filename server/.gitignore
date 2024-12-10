@@ -3,3 +3,6 @@
 
  # Ignore Firebase service account key
 firebase/serviceAccountKey.json
+
+ # Ignore appsettings file
+appsettings.json

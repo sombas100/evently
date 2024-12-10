@@ -17,6 +17,21 @@ const initialState: AuthState = {
     error: null,
 }
 
+export const googleLogin = createAsyncThunk(
+    'auth/googleLogin',
+    async (idToken: string, { rejectWithValue }) => {
+      try {
+        const res = await client.post('/api/auth/verify-token',  idToken );
+        const data = res.data;
+  
+        localStorage.setItem('token', data.token);
+        return data.token;
+      } catch (error: any) {
+        return rejectWithValue(error.response?.data || 'Google login failed');
+      }
+    }
+  );
+
 export const login = createAsyncThunk(
     'auth/login',
     async (credentials: { username: string, email: string; password: string }, { rejectWithValue }) => {
@@ -94,6 +109,19 @@ const authSlice = createSlice({
             state.error = null;
         })
         .addCase(register.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload as string;
+        })
+        .addCase(googleLogin.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        })
+        .addCase(googleLogin.fulfilled, (state, action) => {
+            state.token = action.payload;
+            state.isAuthenticated = true;
+            state.loading = false;
+        })
+        .addCase(googleLogin.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload as string;
         })
