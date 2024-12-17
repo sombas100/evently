@@ -59,7 +59,7 @@ builder.Services.AddSingleton(new JwtService(JwtSecret));
 builder.Services.AddScoped<FirebaseService>();
 
 // Database configuration
-var connectionString = Environment.GetEnvironmentVariable("DATABASE_CONNECTION_STRING");
+var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
 Console.WriteLine("Database connection configured successfully.");

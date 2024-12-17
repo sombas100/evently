@@ -8431,6 +8431,7 @@
       "Google.Cloud.Firestore >= 3.9.0",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 8.0.10",
       "Microsoft.AspNetCore.OpenApi >= 8.0.10",
+      "Microsoft.EntityFrameworkCore >= 8.0.10",
       "Microsoft.EntityFrameworkCore.Design >= 8.0.10",
       "Npgsql.EntityFrameworkCore.PostgreSQL >= 8.0.10",
       "Swashbuckle.AspNetCore >= 6.6.2"
@@ -8501,6 +8502,10 @@
             "version": "[8.0.10, )"
           },
           "Microsoft.AspNetCore.OpenApi": {
+            "target": "Package",
+            "version": "[8.0.10, )"
+          },
+          "Microsoft.EntityFrameworkCore": {
             "target": "Package",
             "version": "[8.0.10, )"
           },
