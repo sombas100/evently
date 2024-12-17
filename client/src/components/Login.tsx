@@ -38,7 +38,7 @@ const Login: React.FC = () => {
 
   return (
     <>
-      <div className="flex items-center justify-center max-w-full text-5xl mt-7">
+      <div className="flex items-center justify-center max-w-full text-5xl mt-7 sm:p-4">
         <h1>
           Event<span className="text-blue-500">ly</span>
         </h1>

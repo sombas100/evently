@@ -29,6 +29,7 @@ const SideBarNavigation = () => {
 
   return (
     <div
+      className="sm:absolute sm:h-32 sm:w-screen"
       style={{
         display: "flex",
         flexDirection: "column",

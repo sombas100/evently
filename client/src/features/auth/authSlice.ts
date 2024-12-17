@@ -19,18 +19,23 @@ const initialState: AuthState = {
 
 export const googleLogin = createAsyncThunk(
     'auth/googleLogin',
-    async (idToken: string, { rejectWithValue }) => {
+    async (idToken: string, { rejectWithValue, dispatch }) => {
       try {
-        const res = await client.post('/api/auth/verify-token',  idToken );
-        const data = res.data;
+        const res = await client.post('/api/auth/verify-token',  idToken);
+        const { token } = res.data;
   
-        localStorage.setItem('token', data.token);
-        return data.token;
+        dispatch(setAuthToken(token))
+        return token;
       } catch (error: any) {
         return rejectWithValue(error.response?.data || 'Google login failed');
       }
     }
   );
+
+  export const setAuthToken = (token: string) => ({
+    type: 'auth/setAuthToken',
+    payload: token,
+  })
 
 export const login = createAsyncThunk(
     'auth/login',
