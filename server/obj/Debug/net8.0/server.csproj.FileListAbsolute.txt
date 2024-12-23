@@ -143,3 +143,6 @@ C:\Users\spark\OneDrive\Desktop\evently\server\bin\Debug\net8.0\Newtonsoft.Json.
 C:\Users\spark\OneDrive\Desktop\evently\server\bin\Debug\net8.0\System.Linq.Async.dll
 C:\Users\spark\OneDrive\Desktop\evently\server\bin\Debug\net8.0\System.Management.dll
 C:\Users\spark\OneDrive\Desktop\evently\server\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Management.dll
+C:\Users\spark\OneDrive\Desktop\evently\server\bin\Debug\net8.0\server.staticwebassets.endpoints.json
+C:\Users\spark\OneDrive\Desktop\evently\server\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\spark\OneDrive\Desktop\evently\server\obj\Debug\net8.0\staticwebassets\msbuild.server.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
