@@ -127,7 +127,7 @@ const eventSlice = createSlice({
             state.loading = true;
             state.error = null;
         })
-        .addCase(registerForEvent.fulfilled, (state, action) => {
+        .addCase(registerForEvent.fulfilled, (state) => {
             state.loading = false;
         })
         .addCase(registerForEvent.rejected, (state, action) => {

@@ -13,10 +13,6 @@ const SideBarNavigation = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const styles = {
-    textHover: "text-sky-700",
-  };
-
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated
   );

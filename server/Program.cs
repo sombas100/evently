@@ -43,7 +43,7 @@ builder.Services.AddCors(opt =>
     opt.AddPolicy("AllowSpecificOrigins",
     policy =>
     {
-        policy.WithOrigins("http://localhost:5173")
+        policy.WithOrigins("http://localhost:5173", "http://localhost:8000")
         .AllowAnyHeader()
         .AllowAnyMethod();
     });
@@ -59,10 +59,27 @@ builder.Services.AddSingleton(new JwtService(JwtSecret));
 builder.Services.AddScoped<FirebaseService>();
 
 // Database configuration
-var connectionString = Environment.GetEnvironmentVariable("LOCAL_CONNECTION_STRING");
+var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+
+if (string.IsNullOrEmpty(databaseUrl))
+{
+    throw new InvalidOperationException("DATABASE_URL environment variable is not set.");
+}
+
+var uri = new Uri(databaseUrl);
+var host = uri.Host;
+var port = uri.Port;
+var database = uri.AbsolutePath.TrimStart('/');
+var username = uri.UserInfo.Split(':')[0];
+var password = uri.UserInfo.Split(':')[1];
+
+var connectionString = $"Host={host};Port={port};Database={database};Username={username};Password={password};SSL Mode=Require;Trust Server Certificate=True";
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
-Console.WriteLine("Database connection configured successfully.");
+Console.WriteLine("Using connection string: " + connectionString);
+
+
 
 var app = builder.Build();
 

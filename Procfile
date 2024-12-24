@@ -1,1 +1,3 @@
-web: dotnet run --project server
+web: cd server && dotnet run
+
+
