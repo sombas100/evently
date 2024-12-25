@@ -43,7 +43,7 @@ builder.Services.AddCors(opt =>
     opt.AddPolicy("AllowSpecificOrigins",
     policy =>
     {
-        policy.WithOrigins("http://localhost:5173", "http://localhost:8000")
+        policy.WithOrigins("http://localhost:5173", "http://localhost:8000", "https://evently1-88fca06c2485.herokuapp.com")
         .AllowAnyHeader()
         .AllowAnyMethod();
     });
